@@ -2,6 +2,7 @@
 
 from operator import add, sub
 
+
 def a_plus_abs_b(a, b):
     """Return a+abs(b), but without calling abs.
 
@@ -11,10 +12,11 @@ def a_plus_abs_b(a, b):
     5
     """
     if b < 0:
-        f = _____
+        f = a - b
     else:
-        f = _____
-    return f(a, b)
+        f = a + b
+    return f
+
 
 def two_of_three(a, b, c):
     """Return x*x + y*y, where x and y are the two largest members of the
@@ -29,7 +31,8 @@ def two_of_three(a, b, c):
     >>> two_of_three(5, 5, 5)
     50
     """
-    return _____
+    return a * a + b * b + c * c - min(a, b, c) * min(a, b, c)
+
 
 def largest_factor(n):
     """Return the largest factor of n that is smaller than n.
@@ -41,7 +44,12 @@ def largest_factor(n):
     >>> largest_factor(13) # factor is 1 since 13 is prime
     1
     """
-    "*** YOUR CODE HERE ***"
+    x = n - 1
+    while x:
+        if n % x == 0:
+            return x
+        x -= 1
+
 
 def if_function(condition, true_result, false_result):
     """Return true_result if condition is a true value, and
@@ -74,6 +82,7 @@ def with_if_statement():
     else:
         return f()
 
+
 def with_if_function():
     """
     >>> result = with_if_function()
@@ -84,14 +93,18 @@ def with_if_function():
     """
     return if_function(c(), t(), f())
 
+
 def c():
-    "*** YOUR CODE HERE ***"
+    return 0
+
 
 def t():
-    "*** YOUR CODE HERE ***"
+    print(1)
+
 
 def f():
-    "*** YOUR CODE HERE ***"
+    print(2)
+
 
 def hailstone(n):
     """Print the hailstone sequence starting at n and return its
@@ -108,4 +121,14 @@ def hailstone(n):
     >>> a
     7
     """
-    "*** YOUR CODE HERE ***"
+    i = 1
+    print(n)
+    while n != 1:
+        if n % 2 == 0:
+            n //= 2
+        else:
+            n = n*3+1
+        i += 1
+        print(n)
+    return i
+
