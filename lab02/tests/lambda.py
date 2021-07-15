@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '8931dde0069a69c71baf9c4f70650ef1',
+          'answer': 'A lambda expression does not automatically bind the function object that it returns to any name.',
           'choices': [
             'A lambda expression does not automatically bind the function object that it returns to any name.',
             'A lambda expression cannot have more than two parameters.',
@@ -13,7 +13,7 @@ test = {
             'A def statement can only have one line in its body.'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': r"""
           Which of the following statements describes a difference between a def statement
           and a lambda expression?
