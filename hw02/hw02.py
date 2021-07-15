@@ -1,4 +1,5 @@
 """ Homework 2: Higher Order Functions"""
+from math import log
 
 HW_SOURCE_FILE = 'hw02.py'
 
@@ -11,6 +12,7 @@ identity = lambda x: x
 triple = lambda x: 3 * x
 
 increment = lambda x: x + 1
+
 
 ######################
 # Required Questions #
@@ -37,6 +39,12 @@ def product(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    r = 1
+    while n:
+        r *= term(n)
+        n -= 1
+    return r
+
 
 def factorial(n):
     """Return n factorial for n >= 0 by calling product.
@@ -50,6 +58,8 @@ def factorial(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    return product(n, identity)
+
 
 def accumulate(combiner, base, n, term):
     """Return the result of combining the first n terms in a sequence and base.
@@ -70,6 +80,12 @@ def accumulate(combiner, base, n, term):
     19
     """
     "*** YOUR CODE HERE ***"
+    i, res = 1, base
+    while i <= n:
+        res = combiner(res, term(i))
+        i += 1
+    return res
+
 
 def summation_using_accumulate(n, term):
     """Returns the sum of term(1) + ... + term(n). The implementation
@@ -85,6 +101,8 @@ def summation_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
+
 
 def product_using_accumulate(n, term):
     """An implementation of product using accumulate.
@@ -99,12 +117,17 @@ def product_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
+
 
 def compose1(f, g):
     """Return a function h, such that h(x) = f(g(x))."""
+
     def h(x):
         return f(g(x))
+
     return h
+
 
 def make_repeater(f, n):
     """Return the function that computes the nth application of f.
@@ -122,6 +145,8 @@ def make_repeater(f, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(compose1, identity, n, lambda _: f)
+
 
 def num_sevens(n):
     """Returns the number of times 7 appears as a digit of n.
@@ -144,6 +169,13 @@ def num_sevens(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 0:
+        return 0
+    if n % 10 != 7:
+        return num_sevens(n // 10)
+    else:
+        return 1 + num_sevens(n // 10)
+
 
 def pingpong(n):
     """Return the nth element of the ping-pong sequence.
@@ -178,8 +210,17 @@ def pingpong(n):
     """
     "*** YOUR CODE HERE ***"
 
+    def helper(n):
+        if n < 7:
+            return n, 1
+        if num_sevens(n) > 0 or n % 7 == 0:
+            return (lambda x: (x[0]+x[1], -x[1]))(helper(n - 1))
+        return (lambda x: (x[0]+x[1], x[1]))(helper(n - 1))
+
+    return helper(n)[0]
+
 def count_change(amount):
-    """Return the number of ways to make change for amount.
+    """Return the number of ways to make change for rest.
 
     >>> count_change(7)
     6
@@ -194,7 +235,15 @@ def count_change(amount):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def help(rest, limit):
+        if rest == 0:
+            return 1
+        if rest < 0:
+            return 0
+        if limit == 1:
+            return 1
+        return help(rest - limit, limit) + help(rest, limit // 2)
+    return help(amount, 2 ** int(log(amount, 2)))
 
 
 ###################
@@ -204,6 +253,7 @@ def count_change(amount):
 def print_move(origin, destination):
     """Print instructions to move a disk."""
     print("Move the top disk from rod", origin, "to rod", destination)
+
 
 def move_stack(n, start, end):
     """Print the moves required to move n disks on the start pole to the end
@@ -235,7 +285,9 @@ def move_stack(n, start, end):
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
 
+
 from operator import sub, mul
+
 
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
