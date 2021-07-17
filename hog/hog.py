@@ -22,6 +22,19 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    r = 0
+    while num_rolls:
+        num_rolls -= 1
+        x = dice()
+        if x == 1:
+            r = 1
+            break
+        else:
+            r += x
+    while num_rolls:
+        num_rolls -= 1
+        dice()
+    return r
     # END PROBLEM 1
 
 
@@ -33,6 +46,7 @@ def free_bacon(score):
     assert score < 100, 'The game should be over.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    return 10 - min(score % 10, score//10)
     # END PROBLEM 2
 
 
@@ -51,6 +65,10 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert opponent_score < 100, 'The game should be over.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if num_rolls:
+        return roll_dice(num_rolls, dice)
+    else:
+        return free_bacon(opponent_score)
     # END PROBLEM 3
 
 
@@ -60,6 +78,13 @@ def is_swap(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    if player_score < 10:
+        first = player_score
+    elif player_score < 100:
+        first = player_score // 10
+    else:
+        first = 1
+    return first == opponent_score % 10
     # END PROBLEM 4
 
 
@@ -99,6 +124,20 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     player = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while score0 < goal and score1 < goal:
+        if player == 0:
+            strategy, player_score, opponent_score = strategy0, score0, score1
+        else:
+            strategy, player_score, opponent_score = strategy1, score1, score0
+        player_score += take_turn(strategy(player_score, opponent_score), opponent_score, dice)
+        if is_swap(player_score, opponent_score):
+            player_score, opponent_score = opponent_score, player_score
+        if player == 0:
+            score0, score1 = player_score, opponent_score
+        else:
+            score0, score1 = opponent_score, player_score
+        player = other(player)
+
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
