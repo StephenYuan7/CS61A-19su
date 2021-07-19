@@ -147,11 +147,11 @@ def add_trees(t1, t2):
         branch_t1 = branches(t1)
         branch_t2 = branches(t2)
         for i in range(min(len(branch_t1), len(branch_t2))):
-            branch += [add_trees(branch_t1[i], branch_t2[i])]
+            branch.append(add_trees(branch_t1[i], branch_t2[i]))
         if len(branch_t1) > len(branch_t2):
             for i in range(len(branch_t2), len(branch_t1)):
-                branch += [branch_t1[i]]
+                branch.append(branch_t1[i])
         else:
             for i in range(len(branch_t1), len(branch_t2)):
-                branch += [branch_t2[i]]
+                branch.append(branch_t2[i])
     return tree(label(t1)+label(t2), branch)
