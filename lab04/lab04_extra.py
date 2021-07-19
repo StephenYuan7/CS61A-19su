@@ -2,6 +2,7 @@
 
 from lab04 import *
 
+
 def squares(s):
     """Returns a new list containing square roots of the elements of the
     original list that are perfect squares.
@@ -14,6 +15,8 @@ def squares(s):
     []
     """
     "*** YOUR CODE HERE ***"
+    return [round(sqrt(i)) for i in s if sqrt(i) == round(sqrt(i))]
+
 
 def key_of_min_value(d):
     """Returns the key in a dict d that corresponds to the minimum value of d.
@@ -24,3 +27,10 @@ def key_of_min_value(d):
     'c'
     """
     "*** YOUR CODE HERE ***"
+    min_num = 999999999
+    r = 'a'
+    for key, value in d.items():
+        if value <= min_num:
+            min_num = value
+            r = key
+    return r
